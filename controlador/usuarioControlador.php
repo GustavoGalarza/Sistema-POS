@@ -1,4 +1,14 @@
 <?php
+$ruta = parse_url($_SERVER["REQUEST_URI"]);
+
+if (isset($ruta["query"])) {
+    if ($ruta["query"] == "crtRegUsuario") {
+        $metodo = $ruta["query"];
+        $usuario = new ControladorUsuario();
+        $usuario->$metodo();
+    }
+}
+
 class ControladorUsuario
 {
     static public function crtIngresoUsuario()
@@ -19,8 +29,24 @@ class ControladorUsuario
 
         }
     }
-    static public function crtInfoUsuarios(){
-        $respuesta=ModeloUsuario::mdlInfoUsuarios();    
+    static public function crtInfoUsuarios()
+    {
+        $respuesta = ModeloUsuario::mdlInfoUsuarios();
         return $respuesta;
+    }
+    static public function crtRegUsuario()
+    {
+        require "../modelo/usuarioModelo.php";
+
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+        $data = array(
+            "loginUsuario" => $_POST["login"],
+            "password" => $password,
+            "perfil" => "Moderador"
+        );
+        $respuesta=ModeloUsuario::mdlRegUsuario($data);
+        
+        echo $respuesta;
     }
 }

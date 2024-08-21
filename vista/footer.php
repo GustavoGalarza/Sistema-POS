@@ -1,13 +1,12 @@
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Un Sistema de Punto de Venta
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2024 <a href="https://adminlte.io">Informatica.io</a>.</strong> All rights reserved.
-  </footer>
+<!-- Main Footer -->
+<footer class="main-footer">
+  <!-- To the right -->
+  <div class="float-right d-none d-sm-inline">
+    Un Sistema de Punto de Venta
+  </div>
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2014-2024 <a href="https://adminlte.io">Informatica.io</a>.</strong> All rights reserved.
+</footer>
 </div>
 <!-- ./wrapper -->
 
@@ -32,6 +31,28 @@
 <script src="assest/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="assest/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="assest/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="assest/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script src="assest/dist/js/usuario.js"></script>
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content" id="content-default">
+      
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<!-- jquery-validation -->
+<script src="assest/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="assest/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="assest/plugins/jquery-validation/localization/messages_es.js"></script>
+
 <!-- Page specific script -->
 <script>
   $(function () {
@@ -39,8 +60,9 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-     
+
   });
 </script>
 </body>
+
 </html>

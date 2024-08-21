@@ -37,39 +37,50 @@
                                 <th>Ultimo acceso</th>
                                 <th>Fecha de Registro</th>
                                 <td>
-                        <button class="btn btn-primary">Nuevo User</button>
-                    </td>
+                                    <button class="btn btn-primary" onclick="MNuevoUsuario()">Nuevo</button>
+                                </td>
                             </tr>
                         </thead>
-                       <tbody>
-                    <?php
-                    $usuario=ControladorUsuario::crtInfoUsuarios();
-                    foreach($usuario as $value){
-                    ?>
-                    <tr>
-                    <td><?php echo $value["id_usuario"]; ?></td>
-                    <td><?php echo $value["login_usuario"]; ?></td>
-                    <td><?php echo $value["perfil"]; ?></td>
-                    <td><?php echo $value["estado"]; ?></td>
-                    <td><?php echo $value["ultimo_login"]; ?></td>
-                    <td><?php echo $value["fecha_registro"]; ?></td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-secondary">
-                            <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger">
-                            <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                    </tr>
-                    <?php
-                    
-                    }
-                    ?>
-                       </tbody>
-                        
+                        <tbody>
+                            <?php
+                            $usuario = ControladorUsuario::crtInfoUsuarios();
+                            foreach ($usuario as $value) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $value["id_usuario"]; ?></td>
+                                    <td><?php echo $value["login_usuario"]; ?></td>
+                                    <td><?php echo $value["perfil"]; ?></td>
+                                    <td><?php
+                                    if ($value["estado"] == 1) {
+                                        ?>
+                                            <span class="badge badge-success">Activo</span>
+                                            <?php
+                                    } else {
+                                        ?>
+                                            <span class="badge badge-danger">Inactivo</span>
+                                            <?php
+                                    }
+                                    ?>
+                                    </td>
+                                    <td><?php echo $value["ultimo_login"]; ?></td>
+                                    <td><?php echo $value["fecha_registro"]; ?></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php
+
+                            }
+                            ?>
+                        </tbody>
+
                     </table>
                 </div>
                 <!-- /.card-body -->
