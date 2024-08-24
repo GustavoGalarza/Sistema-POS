@@ -2,7 +2,10 @@
 $ruta = parse_url($_SERVER["REQUEST_URI"]);
 
 if (isset($ruta["query"])) {
-    if ($ruta["query"] == "crtRegUsuario") {
+    if (
+        $ruta["query"] == "crtRegUsuario" ||
+        $ruta["query"] == "crtEditUsuario"||
+        $ruta["query"] == "crtEliUsuario"){
         $metodo = $ruta["query"];
         $usuario = new ControladorUsuario();
         $usuario->$metodo();
@@ -45,8 +48,44 @@ class ControladorUsuario
             "password" => $password,
             "perfil" => "Moderador"
         );
-        $respuesta=ModeloUsuario::mdlRegUsuario($data);
-        
+        $respuesta = ModeloUsuario::mdlRegUsuario($data);
+
         echo $respuesta;
     }
+    static public function crtInfoUsuario($id)
+    {
+        $respuesta = ModeloUsuario::mdlInfoUsuario($id);
+        return $respuesta;
+    }
+    static public function crtEditUsuario()
+    {
+         require "../modelo/usuarioModelo.php";
+
+    if ($_POST["password"] == $_POST["passActual"]) {
+      $password = $_POST["password"];
+    } else {
+      $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    }
+
+
+    $data = array(
+      "password" => $password,
+      "id" => $_POST["idUsuario"],
+      "perfil" => $_POST["perfil"],
+      "estado" => $_POST["estado"]
+    );
+    ModeloUsuario::mdlEditUsuario($data);
+    $respuesta=ModeloUsuario::mdlEditUsuario($data);
+
+    echo $respuesta;
+    }
+
+    static function crtEliUsuario()
+  {
+    require "../modelo/usuarioModelo.php";
+    $id = $_POST["id"];
+
+    $respuesta = ModeloUsuario::mdlEliUsuario($id);
+    echo $respuesta;
+  }
 }
