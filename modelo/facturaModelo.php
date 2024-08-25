@@ -1,11 +1,11 @@
 <?php
 require_once "conexion.php";
-class ModeloUsuario
+class ModeloFactura
 {
     /* acceso al sistem*/
-    static public function mdlAccesoUsuario($usuario)
+    static public function mdlAccesoFactura($factura)
     {
-        $stmt = Conexion::conectar()->prepare("select * from usuario where login_usuario='$usuario'");
+        $stmt = Conexion::conectar()->prepare("select * from factura where login_factura='$factura'");
         $stmt->execute();
 
         return $stmt->fetch();
@@ -14,23 +14,23 @@ class ModeloUsuario
         $stmt->null;
 
     }
-    static public function mdlInfoUsuarios()
+    static public function mdlInfoFacturas()
     {
-        $stmt = Conexion::Conectar()->prepare("select * from usuario");
+        $stmt = Conexion::Conectar()->prepare("select * from factura");
         $stmt->execute();
 
         return $stmt->fetchAll();
         $stmt->close();
         stmt->null;
     }
-    static public function mdlRegUsuario($data)
+    static public function mdlRegFactura($data)
     {
-        $loginUsuario = $data["loginUsuario"];
+        $loginFactura = $data["loginFactura"];
         $password = $data["password"];
         $perfil = $data["perfil"];
 
-        $stmt = Conexion::conectar()->prepare("insert into usuario(login_usuario, password, perfil) 
-        values('$loginUsuario', '$password', '$perfil')");
+        $stmt = Conexion::conectar()->prepare("insert into factura(login_factura, password, perfil) 
+        values('$loginFactura', '$password', '$perfil')");
 
         if ($stmt->execute()) {
             return "ok";
@@ -44,7 +44,7 @@ class ModeloUsuario
     }
     static public function mdlActualizarAcceso($fechaHora, $id)
     {
-        $stmt = Conexion::conectar()->prepare("update usuario set ultimo_login='$fechaHora' where id_usuario='$id'");
+        $stmt = Conexion::conectar()->prepare("update factura set ultimo_login='$fechaHora' where id_factura='$id'");
 
         if ($stmt->execute()) {
             return "ok";
@@ -55,9 +55,9 @@ class ModeloUsuario
         $stmt->close();
         $stmt->null();
     }
-    static public function mdlInfoUsuario($id)
+    static public function mdlInfoFactura($id)
     {
-        $stmt = Conexion::conectar()->prepare("select * from usuario where id_usuario=$id");
+        $stmt = Conexion::conectar()->prepare("select * from factura where id_factura=$id");
         $stmt->execute();
 
         return $stmt->fetch();
@@ -65,7 +65,7 @@ class ModeloUsuario
         $stmt->close();
         $stmt->null;
     }
-    static public function mdlEditUsuario($data)
+    static public function mdlEditFactura($data)
     {
 
         $password = $data["password"];
@@ -73,8 +73,8 @@ class ModeloUsuario
         $estado = $data["estado"];
         $id = $data["id"];
 
-        $stmt = Conexion::conectar()->prepare("update usuario set password='$password', perfil='$perfil',  estado='$estado' 
-        where id_usuario=$id ");
+        $stmt = Conexion::conectar()->prepare("update factura set password='$password', perfil='$perfil',  estado='$estado' 
+        where id_factura=$id ");
 
         if ($stmt->execute()) {
             return "ok";
@@ -86,9 +86,9 @@ class ModeloUsuario
         $stmt->null();
 
     }
-    static public function mdlEliUsuario($id)
+    static public function mdlEliFactura($id)
     {
-        $stmt = Conexion::conectar()->prepare("delete from usuario where id_usuario=$id");
+        $stmt = Conexion::conectar()->prepare("delete from factura where id_factura=$id");
 
         if ($stmt->execute()) {
             return "ok";

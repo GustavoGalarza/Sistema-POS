@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,26 +22,37 @@
     <link rel="stylesheet" href="assest/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="assest/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="assest/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="assest/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 </head>
 
 <?php
-if (isset($_GET["ruta"])) {
+if (isset($_SESSION["ingreso"]) && $_SESSION["ingreso"] == "ok") {
+    if (isset($_GET["ruta"])) {
 
-    if (
-        $_GET["ruta"] == "inicio" ||
-        $_GET["ruta"] == "VUsuario"
-    ) {
-        include "asideMenu.php";
+        if (
+            $_GET["ruta"] == "inicio" ||
+            $_GET["ruta"] == "salir" ||
+            $_GET["ruta"] == "VCliente" ||
+            $_GET["ruta"] == "VProducto" ||
+            $_GET["ruta"] == "VUsuario"
+        ) {
+            include "asideMenu.php";
 
-        include $_GET["ruta"] . ".php";
+            include $_GET["ruta"] . ".php";
 
-        include "footer.php";
+            include "footer.php";
+
+        }
+    } else {
+        include "vista/login.php";
     }
 } else {
     include "vista/login.php";
 }
 
+
+
 ?>
+
 
 </html>
