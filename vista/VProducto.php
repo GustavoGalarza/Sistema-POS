@@ -20,42 +20,38 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Razon Social</th>
-                <th>Nit/CI</th>
-                <th>Direccion</th>
-                <th>Nombre</th>
-                <th>telefono</th>
-                <th>Email</th>
+                <th>cod_producto</th>
+                <th>Descripcion</th>
+                <th>precio</th>
+                <th>imagen</th>
+                <th>estado</th>
                 <td>
-                  <button class="btn btn-primary" onclick="MNuevoCliente()">Nuevo</button>
+                  <button class="btn btn-primary" onclick="MNuevoProducto()">Nuevo</button>
                 </td>
               </tr>
             </thead>
             <tbody>
-              <?php
-              $cliente=ControladorCliente::crtInfoClientes();
-              foreach($cliente as $value){
+            <?php
+              $producto=ControladorProducto::crtInfoProductos();
+              foreach($producto as $value){
               ?>
 
               <tr>
-                <td><?php echo $value["id_cliente"];?></td>
-                <td><?php echo $value["razon_social_cliente"];?></td>
-                <td><?php echo $value["nit_ci_cliente"];?></td>
-                <td><?php echo $value["direccion_cliente"];?></td>
-                <td><?php echo $value["nombre_cliente"];?></td>
-                <td><?php echo $value["telefono_cliente"];?></td>
-                <td><?php echo $value["email_cliente"];?></td>
-                <td>
-                  <div class="btn-group">
-                    <button class="btn btn-secondary" onclick="MEditCliente(<?php echo $value["id_cliente"];?>)">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-danger" onclick="MEliCliente(<?php echo $value["id_cliente"];?>)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </td>
+                <td><?php echo $value["cod_producto"];?></td>
+                <td><?php echo $value["nombre_producto"];?></td>
+                <td><?php echo $value["precio_producto"];?></td>
+                <td><?php echo $value["imagen_producto"];?></td>
+                <td> <?php
+                if ($value["disponible"]==1) {
+                  ?>
+                  <span class="badge badge-success" >Disponible</span>
+                  <?php
+                }else{
+                  ?>
+                  <span class="badge badge-danger" >No disponible</span>
+                  <?php
+                }
+                ?></td>
               </tr>
 
               <?php
