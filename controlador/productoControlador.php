@@ -2,46 +2,55 @@
 $ruta = parse_url($_SERVER["REQUEST_URI"]);
 
 if (isset($ruta["query"])) {
-    if (
-        $ruta["query"] == "crtRegProducto" ||
-        $ruta["query"] == "crtEditProducto"||
-        $ruta["query"] == "crtEliProducto"){
-        $metodo = $ruta["query"];
-        $producto = new ControladorProducto();
-        $producto->$metodo();
-    }
+  if (
+    $ruta["query"] == "crtRegProducto" ||
+    $ruta["query"] == "crtEditProducto" ||
+    $ruta["query"] == "crtEliProducto"
+  ) {
+    $metodo = $ruta["query"];
+    $producto = new ControladorProducto();
+    $producto->$metodo();
+  }
 }
 
 class ControladorProducto
 {
-    static public function crtInfoProductos()
-    {
-        $respuesta = ModeloProducto::mdlInfoProductos();
-        return $respuesta;
-    }
-    static public function crtRegProducto()
-    {
-        require "../modelo/productoModelo.php";
+  static public function crtInfoProductos()
+  {
+    $respuesta = ModeloProducto::mdlInfoProductos();
+    return $respuesta;
+  }
+  static public function crtRegProducto()
+  {
+    require "../modelo/productoModelo.php";
 
-        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    $imagen=$_FILES["imgProducto"];
+    $imgNombre=$imagen["name"];
+    $imgTmp=$imagen["tmp_name"];
 
-        $data = array(
-            "loginProducto" => $_POST["login"],
-            "password" => $password,
-            "perfil" => "Moderador"
-        );
-        $respuesta = ModeloProducto::mdlRegProducto($data);
+    move_uploaded_file($imgTmp, "../assest/dist/img/productos/".$imgNombre);
 
-        echo $respuesta;
-    }
-    static public function crtInfoProducto($id)
-    {
-        $respuesta = ModeloProducto::mdlInfoProducto($id);
-        return $respuesta;
-    }
-    static public function crtEditProducto()
-    {
-         require "../modelo/productoModelo.php";
+    $data = array(
+      "codProducto"=>$_POST["codProducto"],
+      "codProductoSIN"=>$_POST["codProductoSIN"],
+      "desProducto"=>$_POST["desProducto"],
+      "preProducto"=>$_POST["preProducto"],
+      "unidadMedidad"=>$_POST["unidadMedidad"],
+      "unidadMedidadSIN"=>$_POST["unidadMedidadSIN"],
+      "imgProducto"=>$imgNombre,
+    );
+    $respuesta = ModeloProducto::mdlRegProducto($data);
+
+    echo $respuesta;
+  }
+  static public function crtInfoProducto($id)
+  {
+    $respuesta = ModeloProducto::mdlInfoProducto($id);
+    return $respuesta;
+  }
+  static public function crtEditProducto()
+  {
+    require "../modelo/productoModelo.php";
 
     if ($_POST["password"] == $_POST["passActual"]) {
       $password = $_POST["password"];
@@ -57,12 +66,12 @@ class ControladorProducto
       "estado" => $_POST["estado"]
     );
     ModeloProducto::mdlEditProducto($data);
-    $respuesta=ModeloProducto::mdlEditProducto($data);
+    $respuesta = ModeloProducto::mdlEditProducto($data);
 
     echo $respuesta;
-    }
+  }
 
-    static function crtEliProducto()
+  static function crtEliProducto()
   {
     require "../modelo/productoModelo.php";
     $id = $_POST["id"];

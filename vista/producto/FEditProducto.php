@@ -1,6 +1,6 @@
 <?php
-require_once "../../controlador/usuarioControlador.php";
-require_once "../../modelo/usuarioModelo.php";
+require_once "../../controlador/productoControlador.php";
+require_once "../../modelo/productoModelo.php";
 
 $id = $_GET["id"];
 

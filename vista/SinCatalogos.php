@@ -20,10 +20,9 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>cod. Producto Sin</th>
                 <th>cod. Actividad</th>
+                <th>cod. Producto Sin</th>
                 <th>Descripcion</th>
-                
                 <td>
                   <button class="btn btn-primary" onclick="SinCatalogo()" >Sincronizar </button>
                 </td>

@@ -2,18 +2,6 @@
 require_once "conexion.php";
 class ModeloProducto
 {
-    /* acceso al sistem*/
-    static public function mdlAccesoProducto($producto)
-    {
-        $stmt = Conexion::conectar()->prepare("select * from producto where login_producto='$producto'");
-        $stmt->execute();
-
-        return $stmt->fetch();
-
-        $stmt->close();
-        $stmt->null;
-
-    }
     static public function mdlInfoProductos()
     {
         $stmt = Conexion::Conectar()->prepare("select * from producto");
@@ -25,12 +13,16 @@ class ModeloProducto
     }
     static public function mdlRegProducto($data)
     {
-        $loginProducto = $data["loginProducto"];
-        $password = $data["password"];
-        $perfil = $data["perfil"];
+        $codProducto=$data["codProducto"];
+        $codProductoSIN=$data["codProductoSIN"];
+        $desProducto=$data["desProducto"];
+        $preProducto=$data["preProducto"];
+        $unidadMedidad=$data["unidadMedidad"];
+        $unidadMedidadSIN=$data["unidadMedidadSIN"];
+        $imgProducto=$data["imgProducto"];
 
-        $stmt = Conexion::conectar()->prepare("insert into producto(login_producto, password, perfil) 
-        values('$loginProducto', '$password', '$perfil')");
+        $stmt = Conexion::conectar()->prepare("insert into producto(cod_producto, cod_producto_sin, nombre_producto, precio_producto, unidad_medida, unidad_medida_sin, imagen_producto) 
+        values('$codProducto', '$codProductoSIN', '$desProducto', '$preProducto', '$unidadMedidad', '$unidadMedidadSIN', '$imgProducto')");
 
         if ($stmt->execute()) {
             return "ok";
@@ -42,19 +34,7 @@ class ModeloProducto
         $stmt->null();
 
     }
-    static public function mdlActualizarAcceso($fechaHora, $id)
-    {
-        $stmt = Conexion::conectar()->prepare("update producto set ultimo_login='$fechaHora' where id_producto='$id'");
-
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
-
-        $stmt->close();
-        $stmt->null();
-    }
+    
     static public function mdlInfoProducto($id)
     {
         $stmt = Conexion::conectar()->prepare("select * from producto where id_producto=$id");

@@ -16,7 +16,6 @@ function MNuevoProducto() {
 function regProducto() {
     var formData=new FormData($("#FRegProducto")[0])
 
-    if (formData.get("password")==formData.get("vrPassword")) {
         $.ajax({
             type: "POST",
             url: "controlador/productoControlador.php?crtRegProducto",
@@ -45,7 +44,7 @@ function regProducto() {
                 }
             }
         })
-    }
+    
     
     
 }    
@@ -148,6 +147,32 @@ function MEliProducto(id){
         }
       })
 }
+
+function previsualizar(){
+  let imagen=document.getElementById("imgProducto").files[0]
+  if (imagen["type"]!="image/jpeg" && imagen["type"]!="image/png") {
+    $("#imgProducto").val("")
+    Swal.fire({
+      icon: 'error',
+      showConfirmButton: false,
+      title: 'El Archivo no es JPG o PNG!',
+    })
+  }else if(imagen["size"]>10000000){
+    $("#imgProducto").val("")
+    Swal.fire({
+      icon: 'error',
+      showConfirmButton: false,
+      title: 'El Archivo supera los 10MB',
+    })
+  }else{
+    let datosImagen=new FileReader
+    datosImagen.readAsDataURL(imagen)
+    $(datosImagen).on("load", function(event){
+      let rutaImagen=event.target.result
+      $(".previsualizar").attr("src",rutaImagen)
+    })
+  }
+  }
 
 function SinCatalogo(){
   var obj={
