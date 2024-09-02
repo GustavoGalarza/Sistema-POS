@@ -62,6 +62,19 @@
                   <?php
                 }
                 ?></td>
+                <td>
+                  <div class="btn-group">
+                  <button class="btn btn-info" onclick="MEVerProducto(<?php echo $value["id_producto"];?>)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-secondary" onclick="MEditProducto(<?php echo $value["id_producto"];?>)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger" onclick="MEliProducto(<?php echo $value["id_producto"];?>)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
               </tr>
 
               <?php
