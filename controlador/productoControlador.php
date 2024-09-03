@@ -24,20 +24,20 @@ class ControladorProducto
   {
     require "../modelo/productoModelo.php";
 
-    $imagen=$_FILES["imgProducto"];
-    $imgNombre=$imagen["name"];
-    $imgTmp=$imagen["tmp_name"];
+    $imagen = $_FILES["imgProducto"];
+    $imgNombre = $imagen["name"];
+    $imgTmp = $imagen["tmp_name"];
 
-    move_uploaded_file($imgTmp, "../assest/dist/img/productos/".$imgNombre);
+    move_uploaded_file($imgTmp, "../assest/dist/img/productos/" . $imgNombre);
 
     $data = array(
-      "codProducto"=>$_POST["codProducto"],
-      "codProductoSIN"=>$_POST["codProductoSIN"],
-      "desProducto"=>$_POST["desProducto"],
-      "preProducto"=>$_POST["preProducto"],
-      "unidadMedidad"=>$_POST["unidadMedidad"],
-      "unidadMedidadSIN"=>$_POST["unidadMedidadSIN"],
-      "imgProducto"=>$imgNombre,
+      "codProducto" => $_POST["codProducto"],
+      "codProductoSIN" => $_POST["codProductoSIN"],
+      "desProducto" => $_POST["desProducto"],
+      "preProducto" => $_POST["preProducto"],
+      "unidadMedidad" => $_POST["unidadMedidad"],
+      "unidadMedidadSIN" => $_POST["unidadMedidadSIN"],
+      "imgProducto" => $imgNombre,
     );
     $respuesta = ModeloProducto::mdlRegProducto($data);
 
@@ -51,21 +51,27 @@ class ControladorProducto
   static public function crtEditProducto()
   {
     require "../modelo/productoModelo.php";
-
-    if ($_POST["password"] == $_POST["passActual"]) {
-      $password = $_POST["password"];
+    $imagen = $_FILES["imgProducto"];
+    if ($imagen["name"] == "") {
+      $imgNombre = $_POST["imgActual"];
     } else {
-      $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+      $imgNombre = $imagen["name"];
+      $imgTmp = $imagen["tmp_name"];
+      move_uploaded_file($imgTmp, "../assest/dist/img/productos/" . $imgNombre);
     }
 
 
     $data = array(
-      "password" => $password,
-      "id" => $_POST["idProducto"],
-      "perfil" => $_POST["perfil"],
-      "estado" => $_POST["estado"]
+      "idProducto" => $_POST["id_producto"],
+      "codProductoSIN" => $_POST["codProductoSIN"],
+      "desProducto" => $_POST["desProducto"],
+      "preProducto" => $_POST["preProducto"],
+      "unidadMedidad" => $_POST["unidadMedidad"],
+      "unidadMedidadSIN" => $_POST["unidadMedidadSIN"],
+      "estado" => $_POST["estado"],
+      "imgProducto" => $imgNombre,
     );
-    ModeloProducto::mdlEditProducto($data);
+
     $respuesta = ModeloProducto::mdlEditProducto($data);
 
     echo $respuesta;

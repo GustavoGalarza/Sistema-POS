@@ -8,6 +8,10 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                <li class="nav-item">
+                    if()
+                   <span class="badge badge-danger">Desconectado</span>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -52,7 +56,7 @@
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Usuarios
                                     <i class="right fas fa-angle-left"></i>
@@ -89,7 +93,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fas fa-boxes"></i>
                                 <p>
                                     Productos
                                     <i class="right fas fa-angle-left"></i>
@@ -115,7 +119,7 @@
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fas fa-piggy-bank"></i>
                                 <p>
                                     Ventas
                                     <i class="right fas fa-angle-left"></i>

@@ -51,7 +51,7 @@ function regProducto() {
 
 function MEditProducto(id){
 
-    $("#modal-default").modal("show")
+    $("#modal-lg").modal("show")
   
     var obj=""
     $.ajax({
@@ -59,15 +59,13 @@ function MEditProducto(id){
       url:"vista/producto/FEditProducto.php?id="+id,
       data:obj,
       success:function(data){
-        $("#content-default").html(data)
+        $("#content-lg").html(data)
       }
   
     })
   }
 function editProducto(){
     var formData=new FormData($("#FEditProducto")[0])
-
-    if(formData.get("password")==formData.get("vrPassword")){
   
       $.ajax({
         type:"POST",
@@ -77,13 +75,14 @@ function editProducto(){
         contentType:false,
         processData:false,
         success:function(data){
-            if(data="ok"){
+          
+        if(data="ok"){
   
             Swal.fire({
               icon: 'success',
               showConfirmButton: false,
               title: 'El Producto ha sido actualizado Exitosamente!',
-              timer: 1000
+              timer: 3000
             })
             setTimeout(function(){
               location.reload()
@@ -91,7 +90,7 @@ function editProducto(){
   
           }else{
             Swal.fire({
-              title: "Error!",
+              title: "Error! al modificar el Producto",
               icon: "error",
               showConfirmButton: false,
               timer: 1000
@@ -102,8 +101,6 @@ function editProducto(){
         }
   
       })
-  
-    }
   
 }
 function MEliProducto(id){

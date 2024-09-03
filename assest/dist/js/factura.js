@@ -185,3 +185,19 @@ function MEliUsuario(id){
         }
       })
 }
+
+
+function verificarComunicacion(){
+  var obj=""
+  $.ajax({
+    type:"POST",
+    url:"",
+    data:obj,
+    cache:false,
+    contentType:"aplication/json",
+    processData:false,
+    success:function(data){
+      console.log(data)
+    }
+  })
+}

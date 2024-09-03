@@ -48,13 +48,16 @@ class ModeloProducto
     static public function mdlEditProducto($data)
     {
 
-        $password = $data["password"];
-        $perfil = $data["perfil"];
-        $estado = $data["estado"];
-        $id = $data["id"];
+        $id=$data["idProducto"];
+        $codProductoSIN=$data["codProductoSIN"];
+        $desProducto=$data["desProducto"];
+        $preProducto=$data["preProducto"];
+        $unidadMedidad=$data["unidadMedidad"];
+        $unidadMedidadSIN=$data["unidadMedidadSIN"];
+        $estado=$data["estado"];
+        $imgProducto=$data["imgProducto"];
 
-        $stmt = Conexion::conectar()->prepare("update producto set password='$password', perfil='$perfil',  estado='$estado' 
-        where id_producto=$id ");
+        $stmt = Conexion::conectar()->prepare("update producto set cod_producto_sin='$codProductoSIN', nombre_producto='$desProducto', precio_producto='$preProducto', unidad_medida='$unidadMedidad', unidad_medida_sin='$unidadMedidadSIN', imagen_producto='$imgProducto', disponible='$estado' where id_producto=$id");
 
         if ($stmt->execute()) {
             return "ok";
