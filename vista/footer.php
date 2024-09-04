@@ -38,6 +38,7 @@
 <script src="assest/dist/js/usuario.js"></script>
 <script src="assest/dist/js/cliente.js"></script>
 <script src="assest/dist/js/producto.js"></script>
+<script src="assest/dist/js/factura.js"></script>
 <!--
 <script src="assest/js/factura.js"></script>-->
 
