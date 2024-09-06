@@ -1,5 +1,5 @@
 <body class="hold-transition sidebar-mini">
-    <class="wrapper">
+<div class="wrapper">
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -126,7 +126,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="VUsuario" class="nav-link">
+                                    <a href="FormVenta" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Emitir Factura</p>
                                     </a>
@@ -148,5 +148,4 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-        </div>
-</body>
+      
