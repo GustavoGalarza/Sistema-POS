@@ -5,6 +5,7 @@ if (isset($ruta["query"])) {
   if (
     $ruta["query"] == "crtRegProducto" ||
     $ruta["query"] == "crtEditProducto" ||
+    $ruta["query"] == "crtBusProducto" ||
     $ruta["query"] == "crtEliProducto"
   ) {
     $metodo = $ruta["query"];
@@ -76,8 +77,7 @@ class ControladorProducto
 
     echo $respuesta;
   }
-
-  static function crtEliProducto()
+  static public function crtEliProducto()
   {
     require "../modelo/productoModelo.php";
     $id = $_POST["id"];
@@ -85,4 +85,16 @@ class ControladorProducto
     $respuesta = ModeloProducto::mdlEliProducto($id);
     echo $respuesta;
   }
+  static public function crtBusProducto()
+  {
+    require "../modelo/productoModelo.php";
+
+    $codProducto = $_POST["codProducto"];
+    $respuesta = ModeloProducto::mdlBusProducto($codProducto);
+    echo json_encode($respuesta);
+
+  }
+
+
+
 }
