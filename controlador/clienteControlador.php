@@ -2,47 +2,49 @@
 $ruta = parse_url($_SERVER["REQUEST_URI"]);
 
 if (isset($ruta["query"])) {
-    if (
-        $ruta["query"] == "crtRegCliente" ||
-        $ruta["query"] == "crtEditCliente"||
-        $ruta["query"] == "crtEliCliente"){
-        $metodo = $ruta["query"];
-        $cliente = new ControladorCliente();
-        $cliente->$metodo();
-    }
+  if (
+    $ruta["query"] == "crtRegCliente" ||
+    $ruta["query"] == "crtEditCliente" ||
+    $ruta["query"] == "crtBusCliente" ||
+    $ruta["query"] == "crtEliCliente"
+  ) {
+    $metodo = $ruta["query"];
+    $cliente = new ControladorCliente();
+    $cliente->$metodo();
+  }
 }
 
 class ControladorCliente
 {
-    static public function crtInfoClientes()
-    {
-        $respuesta = ModeloCliente::mdlInfoClientes();
-        return $respuesta;
-    }
-    static public function crtRegCliente()
-    {
-        require "../modelo/clienteModelo.php";
+  static public function crtInfoClientes()
+  {
+    $respuesta = ModeloCliente::mdlInfoClientes();
+    return $respuesta;
+  }
+  static public function crtRegCliente()
+  {
+    require "../modelo/clienteModelo.php";
 
-        $data = array(
-          "rsocial" => $_POST["rsocial"],
-          "nit" => $_POST["nit"],
-          "direccion" => $_POST["direccion"],
-          "ncliente" => $_POST["ncliente"],
-          "telefono" => $_POST["telefono"],
-          "email" => $_POST["email"]
-        );
-        $respuesta = ModeloCliente::mdlRegCliente($data);
+    $data = array(
+      "rsocial" => $_POST["rsocial"],
+      "nit" => $_POST["nit"],
+      "direccion" => $_POST["direccion"],
+      "ncliente" => $_POST["ncliente"],
+      "telefono" => $_POST["telefono"],
+      "email" => $_POST["email"]
+    );
+    $respuesta = ModeloCliente::mdlRegCliente($data);
 
-        echo $respuesta;
-    }
-    static public function crtInfoCliente($id)
-    {
-        $respuesta = ModeloCliente::mdlInfoCliente($id);
-        return $respuesta;
-    }
-    static public function crtEditCliente()
-    {
-         require "../modelo/clienteModelo.php";
+    echo $respuesta;
+  }
+  static public function crtInfoCliente($id)
+  {
+    $respuesta = ModeloCliente::mdlInfoCliente($id);
+    return $respuesta;
+  }
+  static public function crtEditCliente()
+  {
+    require "../modelo/clienteModelo.php";
 
     if ($_POST["password"] == $_POST["passActual"]) {
       $password = $_POST["password"];
@@ -58,17 +60,25 @@ class ControladorCliente
       "estado" => $_POST["estado"]
     );
     ModeloCliente::mdlEditCliente($data);
-    $respuesta=ModeloCliente::mdlEditCliente($data);
+    $respuesta = ModeloCliente::mdlEditCliente($data);
 
     echo $respuesta;
-    }
-
-    static function crtEliCliente()
+  }
+  static function crtEliCliente()
   {
     require "../modelo/clienteModelo.php";
     $id = $_POST["id"];
 
     $respuesta = ModeloCliente::mdlEliCliente($id);
     echo $respuesta;
+  }
+  static public function crtBusCliente()
+  {
+    require "../modelo/clienteModelo.php";
+    $nitCliente = $_POST["nitCliente"]; 
+ 
+    $respuesta = ModeloCliente::mdlBusCliente($nitCliente);
+    echo json_encode($respuesta);
+
   }
 }
