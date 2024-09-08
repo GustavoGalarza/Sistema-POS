@@ -46,21 +46,23 @@
                         <div class="form-group col-md-3">
                             <label for="">NIT/</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" list="listaClientes" name="nitCliente" id="nitCliente" >
+                                <input type="text" class="form-control" list="listaClientes" name="nitCliente"
+                                    id="nitCliente">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" onclick="busCliente()">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                             </div>
-                            <datalist id="listaClientes" >
+                            <datalist id="listaClientes">
                                 <?php
-                                $cliente=ControladorCliente::crtInfoClientes();
+                                $cliente = ControladorCliente::crtInfoClientes();
                                 foreach ($cliente as $value) {
                                     ?>
-                                    <option value="<?php echo $value["nit_ci_cliente"]; ?>"><?php echo $value["razon_social_cliente"]; ?></option>
+                                    <option value="<?php echo $value["nit_ci_cliente"]; ?>">
+                                        <?php echo $value["razon_social_cliente"]; ?></option>
                                     <?php
-                                }  
+                                }
 
                                 ?>
                             </datalist>
@@ -114,7 +116,7 @@
                 <button class="btn btn-success" onclick="emitirFactura()">Guardar</button>
             </div>
         </div>
-        <!--carrito--> 
+        <!--carrito-->
         <div class="card">
             <div class="card-header">
                 <div class="card-title">Agregar productos</div>
@@ -132,65 +134,71 @@
                     <div class="form-group col-md-2">
                         <label for="">Cod. de producto</label>
                         <div class="input-group form-group">
-                            <input type="text" class="form-control" name="codProducto" id="codProducto" list="listaProductos" >
+                            <input type="text" class="form-control" name="codProducto" id="codProducto"
+                                list="listaProductos">
+                                <input type="hidden" id="codProductoSin" name="codProductoSin">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" onclick="busProducto()">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
-                        <datalist id="listaProductos" >
-                                <?php
-                                $producto=ControladorProducto::crtInfoProductos();
-                                foreach ($producto as $value) {
-                                    ?>
-                                    <option value="<?php echo $value["cod_producto"]; ?>"><?php echo $value["nombre_producto"]; ?></option>
-                                    <?php
-                                }  
-
+                        <datalist id="listaProductos">
+                            <?php
+                            $producto = ControladorProducto::crtInfoProductos();
+                            foreach ($producto as $value) {
                                 ?>
-                            </datalist>
+                                <option value="<?php echo $value["cod_producto"]; ?>">
+                                    <?php echo $value["nombre_producto"]; ?></option>
+                                <?php
+                            }
+
+                            ?>
+                        </datalist>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Concepto</label>
-                        <div class="input-group form-group-"  >
-                            <input type="text" class="form-control" name="conceptoPro" id="conceptoPro" readonly >
+                        <div class="input-group form-group-">
+                            <input type="text" class="form-control" name="conceptoPro" id="conceptoPro" readonly>
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">Cantidad</label>
-                        <div class="input-group form-group-"  >
-                            <input type="text" class="form-control" name="cantProducto" id="cantProducto" value="0" onkeyup="calcularPreProd()" >
+                        <div class="input-group form-group-">
+                            <input type="text" class="form-control" name="cantProducto" id="cantProducto" value="0"
+                                onkeyup="calcularPreProd()">
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">U. Medida</label>
                         <div class="input-group form-group-">
-                            <input type="text" class="form-control" name="uniMedida" id="uniMedida" >
+                            <input type="text" class="form-control" name="uniMedida" id="uniMedida">
+                            <input type="hidden" id="uniMedidaSin" name="uniMedidaSin" >
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">P. Unitario</label>
                         <div class="input-group form-group-">
-                            <input type="text" class="form-control" name="preUnitario" id="preUnitario" readonly >
+                            <input type="text" class="form-control" name="preUnitario" id="preUnitario" readonly>
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">Descuento</label>
                         <div class="input-group form-group-">
-                            <input type="text" class="form-control" name="descProducto" id="descProducto" value="0.00" onkeyup="calcularPreProd()" >
+                            <input type="text" class="form-control" name="descProducto" id="descProducto" value="0.00"
+                                onkeyup="calcularPreProd()">
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">P. Total</label>
                         <div class="input-group form-group-">
-                            <input type="text" class="form-control" name="preTotal" id="preTotal" readonly value="0.00" >
+                            <input type="text" class="form-control" name="preTotal" id="preTotal" readonly value="0.00">
                         </div>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">&nbsp;</label>
                         <div class="input-group form-group-">
-                            <button class="btn btn-info btn-circle form-control">
+                            <button class="btn btn-info btn-circle form-control" onclick="agregarCarrito()">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -199,6 +207,22 @@
                 </div>
             </div>
             <div class="card-footer">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+                            <th>P. Unitario</th>
+                            <th>Descuento</th>
+                            <th>P. Total</th>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                    </thead>
+                    <tbody id="listaDetalle">
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
