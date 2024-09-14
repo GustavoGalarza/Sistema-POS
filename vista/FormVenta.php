@@ -91,7 +91,7 @@
                                     <span class="input-group-text">Descuento</span>
                                 </div>
                                 <input type="text" class="form-control" name="descAdicional" id="descAdicional"
-                                    value="0.00">
+                                    value="0.00" onkeyup="calcularTotal()">
                             </div>
                             <div class="input-group sm-3">
                                 <div class="input-group-prepend">
