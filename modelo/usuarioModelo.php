@@ -21,7 +21,7 @@ class ModeloUsuario
 
         return $stmt->fetchAll();
         $stmt->close();
-        stmt->null;
+        $stmt->null;
     }
     static public function mdlRegUsuario($data)
     {

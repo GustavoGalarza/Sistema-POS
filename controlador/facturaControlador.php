@@ -6,6 +6,8 @@ if (isset($ruta["query"])) {
         $ruta["query"] == "crtRegFactura" ||
         $ruta["query"] == "crtEditFactura"||
         $ruta["query"] == "crtNumFactura"||
+        $ruta["query"] == "crtUltimoCufd"||
+        $ruta["query"] == "crtNuevoCufd"||
         $ruta["query"] == "crtEliFactura"){
         $metodo = $ruta["query"];
         $factura = new ControladorFactura();
@@ -60,5 +62,22 @@ class ControladorFactura
         echo $respuesta["max(id_factura)"]+1;
       }
       
+    }
+    static public function crtNuevoCufd(){
+
+      require "../modelo/facturaModelo.php";
+      
+      $data=array(
+        "cufd"=>$_POST["cufd"],
+        "fechaVigCufd"=>$_POST["fechaVigCufd"],
+        "codControlCufd"=>$_POST["codControlCufd"]
+      );
+    echo ModeloFactura::mdlNuevoCufd($data);
+    }
+    static public function crtUltimoCufd(){
+      require "../modelo/facturaModelo.php";
+     
+      $respuesta=ModeloFactura::mdlUltimoCufd();
+      echo json_encode($respuesta);
     }
 }
