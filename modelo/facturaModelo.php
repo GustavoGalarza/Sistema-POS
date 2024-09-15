@@ -53,7 +53,8 @@ class ModeloFactura
         $stmt->close();
         $stmt->null();
     }
-    static public function mdlNumFactura(){
+    static public function mdlNumFactura()
+    {
         $stmt = Conexion::conectar()->prepare("select max(id_factura) from factura");
         $stmt->execute();
 
@@ -62,10 +63,11 @@ class ModeloFactura
         $stmt->close();
         $stmt->null;
     }
-    static public function mdlNuevoCufd($data){
-        $cufd=$data["cufd"];
-        $fechaVigCufd=$data["fechaVigCufd"];
-        $codControlCufd=$data["codControlCufd"]; 
+    static public function mdlNuevoCufd($data)
+    {
+        $cufd = $data["cufd"];
+        $fechaVigCufd = $data["fechaVigCufd"];
+        $codControlCufd = $data["codControlCufd"];
 
         $stmt = Conexion::conectar()->prepare("insert into cufd(codigo_cufd, codigo_control, fecha_vigencia) 
         values('$cufd', '$codControlCufd', '$fechaVigCufd')");
@@ -79,8 +81,18 @@ class ModeloFactura
         $stmt->close();
         $stmt->null();
     }
-    static public function mdlUltimoCufd(){
+    static public function mdlUltimoCufd()
+    {
         $stmt = Conexion::conectar()->prepare("SELECT * FROM cufd WHERE id_cufd=(select max(id_cufd) from cufd)");
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->close();
+        $stmt->null;
+    }
+    static public function mdlLeyenda(){
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM leyenda order by rand() limit 1");
         $stmt->execute();
 
         return $stmt->fetch();

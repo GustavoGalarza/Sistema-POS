@@ -13,6 +13,8 @@ var cufd;
 var codControlCufd;
 var fechaVigCufd;
 
+var leyenda;
+
 function verificarComunicacion() {
   var obj = ""
   $.ajax({
@@ -199,28 +201,32 @@ function calcularTotal() {
 obtener CUFD
 ========= */
 function solicitudCufd() {
-  var obj = {
-    codigoAmbiente: 2,
-    codigoModalidad: 2,
-    codigoPuntoVenta: 0,
-    codigoPuntoVentaSpecified: true,
-    codigoSistema: codSistema,
-    codigoSucursal: 0,
-    nit: nitEmpresa,
-    cuis: cuis,
-  }
-  $.ajax({
-    type: "POST",
-    url: host + "api/Codigos/solicitudCufd?token=" + token,
-    data: JSON.stringify(obj),
-    cache: false,
-    contentType: "application/json",
-    success: function (data) {
-      cufd = data["codigo"]
-      codControlCufd = data["codigoControl"]
-      fechaVigCufd = data["fechaVigencia"]
 
+  return new Promise((resolve, reject) => {
+    var obj = {
+      codigoAmbiente: 2,
+      codigoModalidad: 2,
+      codigoPuntoVenta: 0,
+      codigoPuntoVentaSpecified: true,
+      codigoSistema: codSistema,
+      codigoSucursal: 0,
+      nit: nitEmpresa,
+      cuis: cuis,
     }
+    $.ajax({
+      type: "POST",
+      url: host + "api/Codigos/solicitudCufd?token=" + token,
+      data: JSON.stringify(obj),
+      cache: false,
+      contentType: "application/json",
+      success: function (data) {
+        cufd = data["codigo"]
+        codControlCufd = data["codigoControl"]
+        fechaVigCufd = data["fechaVigencia"]
+
+        resolve(cufd)
+      }
+    })
   })
 
 }
@@ -229,23 +235,33 @@ registra nuevo cufd
 ================= */
 function registrarNuevoCufd() {
 
-  var obj = {
-    "cufd": cufd,
-    "fechaVigCufd": fechaVigCufd,
-    "codControlCufd": codControlCufd
-  }
+  solicitudCufd().then(ok => {
 
-  $.ajax({
-    type: "POST",
-    data: obj,
-    url: "controlador/facturaControlador.php?crtNuevoCufd",
-    cache: false,
-    success: function (data) {
-      console.log(data)
+    if (ok != "" || ok != null) {
+      var obj = {
+        "cufd": cufd,
+        "fechaVigCufd": fechaVigCufd,
+        "codControlCufd": codControlCufd
+      }
+
+      $.ajax({
+        type: "POST",
+        data: obj,
+        url: "controlador/facturaControlador.php?crtNuevoCufd",
+        cache: false,
+        success: function (data) {
+          if (data == "ok") {
+            $("#panelInfo").before("<span class='text-primary'>Cufd Regsitrado!!!</span><br>")
+          } else {
+            $("#panelInfo").before("<span class='text-danger'>Error de Registro Cufd!</span><br>")
+          }
+        }
+
+      })
+
     }
+
   })
-
-
 }
 /*===============
 verificar vigencia nuevo cufd
@@ -268,21 +284,39 @@ function verificarVigenciaCufd() {
       if (date.getTime() > vigCufdActual.getTime()) {
         $("#panelInfo").before("<span class='text-warning'>Cufd caducado!!!</span><br>")
         $("#panelInfo").before("<span>Registrando Cufd...</span><br>")
-        //registrarNuevoCufd()
+        registrarNuevoCufd()
+
       } else {
         $("#panelInfo").before("<span class='text-success'>Cufd vigente, se puede facturar!</span><br>")
-/*
+
         cufd = data["codigo_cufd"]
         codControlCufd = data["codigo_control"]
         fechaVigCufd = data["fecha_vigencia"]
-*/
-
 
       }
 
     }
   });
 }
+/*===============
+verificar u obtener leyenda
+================= */
+function extraerLeyenda() {
+  var obj = ""
+
+  $.ajax({
+    type: "POST",
+    url: "controlador/facturaControlador.php?crtLeyenda",
+    data: obj,
+    cache: false,
+    dataType: "json",
+    success: function (data) {
+      leyenda = data["desc_leyenda"]
+
+    }
+  })
+}
+
 
 
 /*=======
@@ -315,14 +349,14 @@ function emitirFactura() {
     codigoPuntoVentaSpecified: true,
     codigoSistema: codSistema,
     codigoSucursal: 0,
-    cufd: "",
+    cufd: cufd,
     cuis: cuis,
     nit: nitEmpresa,
     tipoFacturaDocumento: 1,
     archivo: null,
     fechaEnvio: fechaFactura,
     hashArchivo: "",
-    codigoControl: "",
+    codigoControl: codControlCufd,
     factura: {
       cabecera: {
         nitEmisor: nitEmpresa,
@@ -331,7 +365,7 @@ function emitirFactura() {
         telefono: telEmpresa,
         numeroFactura: numFactura,
         cuf: "String",
-        cufd: "",
+        cufd: cufd,
         codigoSucursal: 0,
         direccion: dirEmpresa,
         codigoPuntoVenta: 0,
@@ -349,7 +383,7 @@ function emitirFactura() {
         descuentoAdicional: descAdicional,
         codigoExcepcion: "0",
         cafc: null,
-        leyenda: "",
+        leyenda: leyenda,
         usuario: usuarioLogin,
         codigoDocumentoSector: 1
       },
