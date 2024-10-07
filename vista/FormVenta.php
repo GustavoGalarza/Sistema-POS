@@ -48,6 +48,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" list="listaClientes" name="nitCliente"
                                     id="nitCliente">
+                                    <input type="hidden" id="idCliente" name="idCliente" >
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" onclick="busCliente()">
                                         <i class="fas fa-search"></i>

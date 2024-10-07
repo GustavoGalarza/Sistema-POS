@@ -8,6 +8,7 @@ if (isset($ruta["query"])) {
     $ruta["query"] == "crtNumFactura" ||
     $ruta["query"] == "crtUltimoCufd" ||
     $ruta["query"] == "crtLeyenda" ||
+    $ruta["query"] == "crtRegistrarFatura" ||
     $ruta["query"] == "crtNuevoCufd" ||
     $ruta["query"] == "crtEliFactura"
   ) {
@@ -24,21 +25,6 @@ class ControladorFactura
   {
     $respuesta = ModeloFactura::mdlInfoFacturas();
     return $respuesta;
-  }
-  static public function crtRegFactura()
-  {
-    require "../modelo/facturaModelo.php";
-
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-
-    $data = array(
-      "loginFactura" => $_POST["login"],
-      "password" => $password,
-      "perfil" => "Moderador"
-    );
-    $respuesta = ModeloFactura::mdlRegFactura($data);
-
-    echo $respuesta;
   }
   static public function crtInfoFactura($id)
   {
@@ -93,4 +79,28 @@ class ControladorFactura
     $respuesta = ModeloFactura::mdlLeyenda();
     echo json_encode($respuesta);
   }
+  static public function crtRegistrarFatura(){
+    require "../modelo/facturaModelo.php";
+
+     $data=array(
+      "codFactura"=>$_POST["codFactura"],
+      "idCliente"=>$_POST["idCliente"],
+      "detalle"=>$_POST["detalle"],
+      "neto"=>$_POST["neto"],
+      "descuento"=>$_POST["descuento"],
+      "total"=>$_POST["total"],
+      "fechaEmision"=>$_POST["fechaEmision"],
+      "cufd"=>$_POST["cufd"],
+      "cuf"=>$_POST["cuf"],
+      "xml"=>$_POST["xml"],
+      "idUsuario"=>$_POST["idUsuario"],
+      "usuario"=>$_POST["usuario"],
+      "leyenda"=>$_POST["leyenda"]
+     );
+    $respuesta=ModeloFactura::mdlRegistrarFactura($data);
+    echo $respuesta;
+
+  }
+
+
 }

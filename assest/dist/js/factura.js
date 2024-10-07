@@ -57,6 +57,8 @@ function busCliente() {
         document.getElementById("emailCliente").value = data["email_cliente"]
       }
       document.getElementById("rsCliente").value = data["razon_social_cliente"]
+      document.getElementById("idCliente").value = data["id_cliente"]
+
       numFactura()
     }
   })
@@ -316,6 +318,22 @@ function extraerLeyenda() {
     }
   })
 }
+
+/*===============
+tranformar fecha con formato iso 8601
+================= */
+function transformarFecha(fechaISO) {
+  let fecha_iso = fechaISO.split("T")
+  let hora_iso = fecha_iso[1].split(".")
+
+  let fecha = fecha_iso[0]
+  let hora = hora_iso[0]
+
+  let fecha_hora = fecha + " " + hora
+  return fecha_hora
+}
+
+
 /*===============
 validar Formulario
 ================= */
@@ -403,9 +421,9 @@ function emitirFactura() {
           numeroTarjeta: null,
           montoTotal: subTotal,
           montoTotalSujetoIva: totApagar,
-          codigoMoneda:1,
-          tipoCambio:1, 
-          montoTotalMoneda:totApagar,
+          codigoMoneda: 1,
+          tipoCambio: 1,
+          montoTotalMoneda: totApagar,
           montoGiftCard: 0,
           descuentoAdicional: descAdicional,
           codigoExcepcion: 0,
@@ -419,19 +437,88 @@ function emitirFactura() {
 
     }
 
-    //console.log(JSON.stringify(obj))
-    
+
+
     $.ajax({
-      type:"POST",
-      url:host+"api/CompraVenta/recepcion",
-      data:JSON.stringify(obj),
-      cache:false,
-      contentType:"application/json",
-      processData:false,
-      success: function (data){ 
-        console.log(data);
-        
+      type: "POST",
+      url: host + "api/CompraVenta/recepcion",
+      data: JSON.stringify(obj),
+      cache: false,
+      contentType: "application/json",
+      processData: false,
+      success: function (data) {
+        if (data["codigoResultado"] !== 908) {
+          $("#panelInfo").before("<span class='text-danger'>Error al emitir factura, no emitida!!</span><br>")
+        } else {
+          $("#panelInfo").before("<span>Registrando factura.. emitiendo factura</span><br>")
+
+          let datos = {
+            codigoResultado: data["codigoResultado"],
+            codigoRecepcion: data["datoAdicional"]["codigoRecepcion"],
+            cuf: data["datoAdicional"]["cuf"],
+            sentDate: data["datoAdicional"]["sentDate"],
+            xml: data["datoAdicional"]["xml"],
+
+          }
+          registrarFactura(datos)
+
+        }
+
       }
     })
-  } 
+  }
+}
+
+function registrarFactura(datos) {
+  let numFactura = document.getElementById("numFactura").value
+  let idCliente = document.getElementById("idCliente").value
+  let subTotal = parseFloat(document.getElementById("subTotal").value)
+  let descAdicional = parseFloat(document.getElementById("descAdicional").value)
+  let totApagar = parseFloat(document.getElementById("totApagar").value)
+  let fechaEmision = transformarFecha(datos["sentDate"])
+  let idUsuario = document.getElementById("idUsuario").value
+  let usuarioLogin = document.getElementById("usuarioLogin").innerHTML
+
+  let obj = {
+    "codFactura": numFactura,
+    "idCliente": idCliente,
+    "detalle": JSON.stringify(arregloCarrito),
+    "neto": subTotal,
+    "descuento": descAdicional,
+    "total": totApagar,
+    "fechaEmision": fechaEmision,
+    "cufd": cufd,
+    "cuf": datos["cuf"],
+    "xml": datos["xml"],
+    "idUsuario": idUsuario,
+    "usuario": usuarioLogin,
+    "leyenda": leyenda
+  }
+
+  $.ajax({
+    type: "POST",
+    url:"controlador/facturaControlador.php?crtRegistrarFatura",
+    data: obj,
+    cache: false,
+    success: function (data) {
+      if (data=="ok") {
+        Swal.fire({
+          icon:"success",
+          showConfirmButton:false,
+          title:"Factura Registrada"
+        })
+        setTimeout(function(){
+          location.reload()
+        }, 1000)
+      }else{
+        Swal.fire({
+          icon:"error",
+          showConfirmButton:false,
+          title:"Error al registrar Factura",
+          timer:1500
+        })
+
+      }
+    }
+  })
 }
