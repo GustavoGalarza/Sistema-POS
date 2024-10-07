@@ -497,28 +497,42 @@ function registrarFactura(datos) {
 
   $.ajax({
     type: "POST",
-    url:"controlador/facturaControlador.php?crtRegistrarFatura",
+    url: "controlador/facturaControlador.php?crtRegistrarFatura",
     data: obj,
     cache: false,
     success: function (data) {
-      if (data=="ok") {
+      if (data == "ok") {
         Swal.fire({
-          icon:"success",
-          showConfirmButton:false,
-          title:"Factura Registrada"
+          icon: "success",
+          showConfirmButton: false,
+          title: "Factura Registrada"
         })
-        setTimeout(function(){
+        setTimeout(function () {
           location.reload()
         }, 1000)
-      }else{
+      } else {
         Swal.fire({
-          icon:"error",
-          showConfirmButton:false,
-          title:"Error al registrar Factura",
-          timer:1500
+          icon: "error",
+          showConfirmButton: false,
+          title: "Error al registrar Factura",
+          timer: 1500
         })
 
       }
+    }
+  })
+}
+
+
+function MVerFactura(id) {
+  $("#modal-xl").modal("show")
+  var obj = ""
+  $.ajax({
+    type: "POST",
+    url: "vista/factura/MVerFactura.php?id=" + id,
+    data: obj,
+    success: function (data) {
+      $("#content-xl").html(data);
     }
   })
 }

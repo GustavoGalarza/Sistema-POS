@@ -2,13 +2,12 @@
 $ruta = parse_url($_SERVER["REQUEST_URI"]);
 
 if (isset($ruta["query"])) {
-  if (
-    $ruta["query"] == "crtRegFactura" ||
-    $ruta["query"] == "crtEditFactura" ||
-    $ruta["query"] == "crtNumFactura" ||
+  if ($ruta["query"] == "crtNumFactura" ||
     $ruta["query"] == "crtUltimoCufd" ||
     $ruta["query"] == "crtLeyenda" ||
     $ruta["query"] == "crtRegistrarFatura" ||
+    $ruta["query"] == "crtInfoFacturas" ||
+    $ruta["query"] == "crtInfoFactura" ||
     $ruta["query"] == "crtNuevoCufd" ||
     $ruta["query"] == "crtEliFactura"
   ) {
